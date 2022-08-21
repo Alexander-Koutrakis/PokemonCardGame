@@ -60,12 +60,8 @@ public class DeckSelector : MonoBehaviour
             horizontalLayoutGroup = horizontalLayoutGroups[horizontalLayoutGroups.Length - 1];
         }
         GameObject newDeckHolder;
-        
-        RectTransform panelRectTransform = verticalLayoutGroup.GetComponent<RectTransform>();
-        RectTransform deckPrefabRectTransform= deckHolderPrefab.GetComponent<RectTransform>();
-        int cardSize = panelRectTransform.CardLineSize(deckPrefabRectTransform, horizontalLayoutGroup);
-
-        if (horizontalLayoutGroup.GetComponentsInChildren<Transform>().Length >= cardSize+1)
+ 
+        if (horizontalLayoutGroup.GetComponentsInChildren<Transform>().Length >= 5)
         {
             GameObject newLine = Instantiate(deckLinePrefab, verticalLayoutGroup.transform);
             newDeckHolder = Instantiate(deckHolderPrefab, newLine.transform);

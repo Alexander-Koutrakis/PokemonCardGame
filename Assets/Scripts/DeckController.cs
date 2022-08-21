@@ -92,12 +92,8 @@ public class DeckController : MonoBehaviour
     {
         int cardNumber = deck.PokemonCards.Count;
         ScrollRect scrollRect = GetComponentInChildren<ScrollRect>();
-        RectTransform panelRectTransform = verticalLayoutGroup.GetComponent<RectTransform>();
-        RectTransform deckPrefabRectTransform = cardContainerPrefab.GetComponent<RectTransform>();
-        HorizontalLayoutGroup horizontalLayoutGroup = cardLinePrefab.GetComponent<HorizontalLayoutGroup>();
-
         scrollRect.verticalNormalizedPosition = 1;
-        int lineSize = panelRectTransform.CardLineSize(deckPrefabRectTransform, horizontalLayoutGroup);        
+        int lineSize = 4;
         int lines = (int)(cardNumber / lineSize)+1;
         cardGridTransforms = new Transform[lineSize * lines];
         int index = 0;
@@ -124,6 +120,7 @@ public class DeckController : MonoBehaviour
         foreach(PokemonCardData pokemonCardData in deck.PokemonCards)
         {
             GameObject newCardContainerGO = Instantiate(cardContainerPrefab, verticalLayoutGroup.transform);
+            RectTransform rectTransform = newCardContainerGO.GetComponent<RectTransform>();
             CardContainer newCardContainer = newCardContainerGO.GetComponent<CardContainer>();
             newCardContainer.Initialise(pokemonCardData);
             newCardContainer.MoveToPosition(cardGridTransforms[index].transform,true);
