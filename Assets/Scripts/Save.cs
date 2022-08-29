@@ -18,7 +18,7 @@ public class Save
         
     }
 
-    public List<Deck> SaveToList()
+    public List<Deck> ToDeckList()
     {
         List<Deck> decks = new List<Deck>();
         for(int i = 0; i < savedDecks.Length; i++)

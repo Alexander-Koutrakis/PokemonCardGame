@@ -103,14 +103,14 @@ public class CardFocus : MonoBehaviour
     private void SetButtonToAddCard(CardContainer cardContainer)
     {
         focusUtilityButton.onClick.RemoveAllListeners();
-        focusUtilityButton.onClick.AddListener(delegate { deckController.AddCardToActive(cardContainer); });
+        focusUtilityButton.onClick.AddListener(delegate { deckController.AddCardToActiveDeck(cardContainer); });
         addRemoveCardImage.sprite = addCardSprite;
         
     }
     private void SetButtonToRemoveCard(CardContainer cardContainer)
     {
         focusUtilityButton.onClick.RemoveAllListeners();
-        focusUtilityButton.onClick.AddListener(delegate { deckController.RemoveCardFromActive(cardContainer); });
+        focusUtilityButton.onClick.AddListener(delegate { deckController.RemoveCardFromActiveDeck(cardContainer); });
         focusUtilityButton.onClick.AddListener(delegate { CloseFocus(); });
         addRemoveCardImage.sprite = removeCardSprite;
     }

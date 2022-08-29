@@ -23,7 +23,7 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static void LoadGame()
+    public static Save LoadGame()
     {
         string path = Application.persistentDataPath + "Continue";
         if (File.Exists(path))
@@ -31,12 +31,13 @@ public static class SaveSystem
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             Save save = formatter.Deserialize(stream) as Save;
-            DeckSelector.Instance.LoadDecks(save.SaveToList());
             stream.Close();
+            return save;
         }
         else
         {
             Debug.LogWarning("NO SAVE DATA FOUND");
+            return null;
         }
     }
 

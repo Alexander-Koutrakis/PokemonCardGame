@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using System.Threading.Tasks;
@@ -27,19 +27,17 @@ public class LoadingScreen : MonoBehaviour
 
     private async void SceneLoading()
     {
-        DeckController deckController = FindObjectOfType<DeckController>();
-        var loadingTask=deckController.LoadAllCards();
+        var loadingTask = CardLoader.LoadPokemonCards();
         while (!loadingTask.IsCompleted)
         {
             loadingText.text = CardLoader.Status;
             await Task.Yield();
         }
-
-        SaveSystem.LoadGame();
-        DeckSelector.Instance.ShowDecks();
+      
+        //SaveSystem.LoadGame();
+        //DeckSelector.Instance.ShowDecks();
         rotationTween.Kill();
         loadingScreen.DOFade(0, 1).OnComplete(() => Destroy(gameObject));
     }
-
  
 }

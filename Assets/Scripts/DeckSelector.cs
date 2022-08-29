@@ -29,11 +29,25 @@ public class DeckSelector : MonoBehaviour
             deckLinePrefab = Resources.Load<GameObject>("DeckLine");
             createdDeckSprite = Resources.Load<Sprite>("DeckSprite");
             deckController = FindObjectOfType<DeckController>();
-            AvailableDecks = new List<Deck>();
+           
+            Save save = SaveSystem.LoadGame();
+            if (save == null)
+            {
+                AvailableDecks = new List<Deck>();
+            }
+            else
+            {
+                AvailableDecks = save.ToDeckList();
+            }   
         }
     }
 
-    
+    private void Start()
+    {
+        ShowDecks();
+    }
+
+
     public void ShowDecks()
     {
         for (int i = 0; i < AvailableDecks.Count; i++)
@@ -44,8 +58,7 @@ public class DeckSelector : MonoBehaviour
         AddDeck(newDeck);
     }
     
-    //Check if you can show a deck on the edge of a deck Line
-    //or create a new line bellow and and it there
+
     public void AddDeck(Deck deck)
     {
         HorizontalLayoutGroup[] horizontalLayoutGroups = verticalLayoutGroup.GetComponentsInChildren<HorizontalLayoutGroup>();
@@ -73,7 +86,6 @@ public class DeckSelector : MonoBehaviour
         AddDeckToButton(newDeckHolder, deck);
     }
 
- 
     private void AddnewDeck(Deck deck)
     {
         if (!AvailableDecks.Contains(deck))
@@ -97,11 +109,6 @@ public class DeckSelector : MonoBehaviour
             Image buttonImage = deckHolder.GetComponent<Image>();
             buttonImage.sprite = createdDeckSprite;
         }
-    }
-
-    public void LoadDecks(List<Deck> decks)
-    {
-        AvailableDecks = decks;
     }
 
     private void Clear()

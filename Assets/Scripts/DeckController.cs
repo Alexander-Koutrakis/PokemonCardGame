@@ -12,7 +12,7 @@ using TMPro;
  */
 public class DeckController : MonoBehaviour
 {
-    public static Deck allCardsDeck { private set; get; }
+    public  Deck allCardsDeck { private set; get; }
     private Deck activeDeck;
 
     private GameObject cardLinePrefab;
@@ -49,19 +49,13 @@ public class DeckController : MonoBehaviour
 
         Button addRemoveButton = GetComponentsInChildren<Button>()[3];
         addRemoveButtonImage = addRemoveButton.GetComponent<Image>();
-    }
 
-    private void Start()
-    {
+        List<PokemonCardData> allCards = CachedCards.Instance.AllPokemonCardData.Values.ToList();
+        allCardsDeck = new Deck(allCards);
         DeckState = DeckState.RemovingCard;
     }
 
-    public async Task LoadAllCards()
-    {
-        List<PokemonCardData> allCards =await CardLoader.LoadPokemonCards();
-        allCardsDeck = new Deck(allCards);
-    }
-
+   
     public async void ShowDeck(Deck deck)
     {
         await ClearDeckAsync();
@@ -80,7 +74,9 @@ public class DeckController : MonoBehaviour
         {
             Destroy(horizontalLayoutGroup.gameObject);
         }
-    }   
+    }
+
+    //Clear deck and wait one frame to destroy the objects
     private async Task ClearDeckAsync()
     {
         ClearDeck();
@@ -128,7 +124,7 @@ public class DeckController : MonoBehaviour
         }
     }
 
-    public void AddCardToActive(CardContainer cardContainer)
+    public void AddCardToActiveDeck(CardContainer cardContainer)
     {
         activeDeck.AddCard(cardContainer.pokemonCardData);
         GameObject newCardContainerGO = Instantiate(cardContainerPrefab, cardContainer.transform);
@@ -138,7 +134,7 @@ public class DeckController : MonoBehaviour
         newCardContainer.ScaleTransform(Vector2.zero);
     }
 
-    public void RemoveCardFromActive(CardContainer cardContainer)
+    public void RemoveCardFromActiveDeck(CardContainer cardContainer)
     {
         activeDeck.RemoveCard(cardContainer.pokemonCardData);
         cardContainer.ScaleTransform(Vector2.zero);

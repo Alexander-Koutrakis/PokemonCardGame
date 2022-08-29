@@ -9,13 +9,14 @@ public static class CardLoader
 {
     private static int cardsLoaded = 0;
     public static string Status { private set; get; }
-    public static async Task<List<PokemonCardData>> LoadPokemonCards()
-    {
-       
+    public static async Task LoadPokemonCards()
+    {       
         Pokemon pokemon = await GetCards();
-       
-        return await SaveCardsinPokemonCardData(pokemon);
+        List<PokemonCardData> pokemonCardData = await SaveCardsinPokemonCardData(pokemon);
+        CachedCards.Instance.LoadCards(pokemonCardData);
     }
+
+   
 
     //Get cards in Json format and save them in Pokemon format
     private static async Task<Pokemon> GetCards()
