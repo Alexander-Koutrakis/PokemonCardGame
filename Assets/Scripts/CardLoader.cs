@@ -13,12 +13,10 @@ public static class CardLoader
     {       
         Pokemon pokemon = await GetCards();
         List<PokemonCardData> pokemonCardData = await SaveCardsinPokemonCardData(pokemon);
-        CachedCards.Instance.LoadCards(pokemonCardData);
+        CachedCards.GetInstance.LoadCards(pokemonCardData);
     }
 
-   
-
-    //Get cards in Json format and save them in Pokemon format
+    //Get cards in json format and save them in Pokemon format
     private static async Task<Pokemon> GetCards()
     {
         Dictionary<string, string> query = new Dictionary<string, string>()
@@ -32,6 +30,7 @@ public static class CardLoader
             Status = "Connecting";
             pokemon = await Card.GetAsync(query);
         } while (pokemon.Cards == null);
+
         Status = "Connected";
         return pokemon;
     }
@@ -42,7 +41,7 @@ public static class CardLoader
         List<PokemonCardData> pokemonCardDatas = new List<PokemonCardData>();
 
         foreach (PokemonCard pokemonCard in pokemon.Cards)
-        {
+        {          
             PokemonCardData newCard = new PokemonCardData(pokemonCard);
             await ImageLoader.SetSpriteAsync(pokemonCard.ImageUrl, newCard);
             pokemonCardDatas.Add(newCard);

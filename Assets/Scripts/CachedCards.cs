@@ -1,12 +1,12 @@
-using System.Collections;
+
 using System.Collections.Generic;
-using UnityEngine;
+
 
 public class CachedCards 
 {
     public Dictionary<string, PokemonCardData> AllPokemonCardData{ private set; get;}
     private static CachedCards instance;
-    public static CachedCards Instance {get
+    public static CachedCards GetInstance {get
         {
             if (instance == null)
             {

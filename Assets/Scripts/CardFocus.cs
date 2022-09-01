@@ -6,7 +6,8 @@ using TMPro;
 using DG.Tweening;
 
 /*This Class is responisble for Adding or Removing the Focused Card
- * It moves the card to Garbage Bin or to Deck Accordingly
+ * According to DeckController DeckState
+ * It moves the card to to Deck or Garbage Bin Accordingly
  */
 public class CardFocus : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class CardFocus : MonoBehaviour
     private Sprite removeCardSprite;
     private Sprite addCardSprite;
 
-    private DeckController deckController;
     private Transform cardParent;
     private CardContainer focusedCard;
 
@@ -39,11 +39,9 @@ public class CardFocus : MonoBehaviour
             focusUtilityButton = horizontalLayoutGroup.GetComponentsInChildren<Button>()[0];
             backButton = horizontalLayoutGroup.GetComponentsInChildren<Button>()[1];
             addRemoveCardImage = focusUtilityButton.GetComponent<Image>();
-            deckController = FindObjectOfType<DeckController>();
             addCardSprite = Resources.Load<Sprite>("DeckSprite");
             removeCardSprite = Resources.Load<Sprite>("GarbageBin");
-        }
-       
+        }      
     }
 
     private void Start()
@@ -71,11 +69,11 @@ public class CardFocus : MonoBehaviour
             focusedCard.MoveToPosition(transform,true);
            
             //Change focusedButton to be able to Add or Remove cards
-            if (deckController.DeckState == DeckState.AddingCard)
+            if (DeckController.Instance.DeckState == DeckState.AddingCard)
             {
                 SetButtonToAddCard(focusedCard);
             }
-            else if (deckController.DeckState == DeckState.RemovingCard)
+            else if (DeckController.Instance.DeckState == DeckState.RemovingCard)
             {
                 SetButtonToRemoveCard(focusedCard);
             }
@@ -84,6 +82,8 @@ public class CardFocus : MonoBehaviour
             focusUtilityButton.gameObject.SetActive(true);
         }
     }
+
+
     public void UnfocusCard()
     {
         fadeImage.DOFade(0, 0.5f).OnComplete(() => fadeImage.enabled = false);
@@ -103,14 +103,14 @@ public class CardFocus : MonoBehaviour
     private void SetButtonToAddCard(CardContainer cardContainer)
     {
         focusUtilityButton.onClick.RemoveAllListeners();
-        focusUtilityButton.onClick.AddListener(delegate { deckController.AddCardToActiveDeck(cardContainer); });
+        focusUtilityButton.onClick.AddListener(delegate { DeckController.Instance.AddCardToActiveDeck(cardContainer); });
         addRemoveCardImage.sprite = addCardSprite;
         
     }
     private void SetButtonToRemoveCard(CardContainer cardContainer)
     {
         focusUtilityButton.onClick.RemoveAllListeners();
-        focusUtilityButton.onClick.AddListener(delegate { deckController.RemoveCardFromActiveDeck(cardContainer); });
+        focusUtilityButton.onClick.AddListener(delegate { DeckController.Instance.RemoveCardFromActiveDeck(cardContainer); });
         focusUtilityButton.onClick.AddListener(delegate { CloseFocus(); });
         addRemoveCardImage.sprite = removeCardSprite;
     }

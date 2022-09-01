@@ -13,8 +13,7 @@ public class DeckSelector : MonoBehaviour
     private GameObject deckLinePrefab;
     private Sprite createdDeckSprite;
     public List<Deck> AvailableDecks { private set; get; }
-    private DeckController deckController;
-    public static DeckSelector Instance;
+    public static DeckSelector Instance { private set; get; }
     private void Awake()
     {
         if (Instance != null)
@@ -28,7 +27,7 @@ public class DeckSelector : MonoBehaviour
             deckHolderPrefab = Resources.Load<GameObject>("DeckContainer");
             deckLinePrefab = Resources.Load<GameObject>("DeckLine");
             createdDeckSprite = Resources.Load<Sprite>("DeckSprite");
-            deckController = FindObjectOfType<DeckController>();
+
            
             Save save = SaveSystem.LoadGame();
             if (save == null)
@@ -98,11 +97,11 @@ public class DeckSelector : MonoBehaviour
         Button deckButton = deckHolder.GetComponent<Button>();
         UnityEvent showDeckEvent = new UnityEvent();
         Deck deckToShow = deck;
-        deckButton.onClick.AddListener(delegate { deckController.SetActiveDeck(deckToShow); });
-        deckButton.onClick.AddListener(delegate { deckController.ShowDeck(deckToShow); });
+        deckButton.onClick.AddListener(delegate { DeckController.Instance.SetActiveDeck(deckToShow); });
+        deckButton.onClick.AddListener(delegate { DeckController.Instance.ShowDeck(deckToShow); });
         deckButton.onClick.AddListener(delegate { gameObject.SetActive(false);});
         deckButton.onClick.AddListener(delegate { AddnewDeck(deckToShow); });
-        deckButton.onClick.AddListener(delegate { deckController.ChangeStatus(DeckState.RemovingCard); });
+        deckButton.onClick.AddListener(delegate { DeckController.Instance.ChangeStatus(DeckState.RemovingCard); });
 
         if (deck.PokemonCards.Count > 0)
         {
@@ -123,5 +122,10 @@ public class DeckSelector : MonoBehaviour
     private void OnDisable()
     {
         Clear();
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }

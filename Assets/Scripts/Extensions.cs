@@ -10,13 +10,19 @@ public static class Extensions
         switch (rarity)
         {
             case Rarity.Common:
-                return 4;
-            case Rarity.Uncommon:
-                return 3;
-            case Rarity.Legend:
                 return 1;
-            default://Rare Types
+            case Rarity.Uncommon:
                 return 2;
+            case Rarity.Rare:
+                return 3;
+            case Rarity.RareHolo:
+                return 4;
+            case Rarity.RareRainbow:
+                return 5;
+            case Rarity.RareHoloVMAX:
+                return 6;
+            default://Rare Types
+                return 7;
         }
     }
 
@@ -30,6 +36,12 @@ public static class Extensions
                 return Rarity.Uncommon;
             case "LEGEND":
                 return Rarity.Legend;
+            case "Rare Holo":
+                return Rarity.RareHolo;
+            case "Rare Rainbow":
+                return Rarity.RareRainbow;
+            case "Rare Holo VMAX":
+                return Rarity.RareHoloVMAX;
             default:
                 return Rarity.Rare;
         }

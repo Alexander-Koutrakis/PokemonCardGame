@@ -34,8 +34,6 @@ public class LoadingScreen : MonoBehaviour
             await Task.Yield();
         }
       
-        //SaveSystem.LoadGame();
-        //DeckSelector.Instance.ShowDecks();
         rotationTween.Kill();
         loadingScreen.DOFade(0, 1).OnComplete(() => Destroy(gameObject));
     }

@@ -21,7 +21,7 @@ public struct SavedDeck
         List<PokemonCardData> pokemonCardDatas = new List<PokemonCardData>();
         for (int i = 0; i < pokemonCardID.Length; i++)
         {
-            PokemonCardData pokemonCardData = CachedCards.Instance.AllPokemonCardData[pokemonCardID[i]];
+            PokemonCardData pokemonCardData = CachedCards.GetInstance.AllPokemonCardData[pokemonCardID[i]];
             pokemonCardDatas.Add(pokemonCardData);           
         }
         Deck deck = new Deck(pokemonCardDatas);

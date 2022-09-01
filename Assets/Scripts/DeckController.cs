@@ -32,27 +32,38 @@ public class DeckController : MonoBehaviour
     private Image addRemoveButtonImage;
     private Sprite toAddCardsSprite;
     private Sprite toRemoveCardsSprite;
+
+    public static DeckController Instance { private set; get; }
     public DeckState DeckState { private set; get; }
    
     
     private void Awake()
     {
-        cardLinePrefab = Resources.Load<GameObject>("CardsLine");
-        cardContainerPrefab= Resources.Load<GameObject>("CardContainer");
-        cardSlotPrefab = Resources.Load<Transform>("CardSlot");
-        verticalLayoutGroup = GetComponentInChildren<VerticalLayoutGroup>();
-        activeDeckTransform = GameObject.FindGameObjectWithTag("Deck").transform;
-        garbageBinTransform = GameObject.FindGameObjectWithTag("Garbage").transform;
-        deckStatusText = GetComponentInChildren<TMP_Text>();
-        toRemoveCardsSprite = Resources.Load<Sprite>("removeCard");
-        toAddCardsSprite = Resources.Load<Sprite>("addCard");
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            cardLinePrefab = Resources.Load<GameObject>("CardsLine");
+            cardContainerPrefab = Resources.Load<GameObject>("CardContainer");
+            cardSlotPrefab = Resources.Load<Transform>("CardSlot");
+            verticalLayoutGroup = GetComponentInChildren<VerticalLayoutGroup>();
+            activeDeckTransform = GameObject.FindGameObjectWithTag("Deck").transform;
+            garbageBinTransform = GameObject.FindGameObjectWithTag("Garbage").transform;
+            deckStatusText = GetComponentInChildren<TMP_Text>();
+            toRemoveCardsSprite = Resources.Load<Sprite>("removeCard");
+            toAddCardsSprite = Resources.Load<Sprite>("addCard");
 
-        Button addRemoveButton = GetComponentsInChildren<Button>()[3];
-        addRemoveButtonImage = addRemoveButton.GetComponent<Image>();
+            Button addRemoveButton = GetComponentsInChildren<Button>()[3];
+            addRemoveButtonImage = addRemoveButton.GetComponent<Image>();
 
-        List<PokemonCardData> allCards = CachedCards.Instance.AllPokemonCardData.Values.ToList();
-        allCardsDeck = new Deck(allCards);
-        DeckState = DeckState.RemovingCard;
+            List<PokemonCardData> allCards = CachedCards.GetInstance.AllPokemonCardData.Values.ToList();
+            allCardsDeck = new Deck(allCards);
+            DeckState = DeckState.RemovingCard;
+            Instance = this;
+        }
+        
     }
 
    
@@ -228,6 +239,11 @@ public class DeckController : MonoBehaviour
             showingPokemoncardDatas.Add(cardContainer.pokemonCardData);
         }
         return showingPokemoncardDatas;
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }
 [System.Serializable]

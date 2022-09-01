@@ -32,4 +32,4 @@ public class PokemonCardData
 
 public enum Type {Grass, Fighting, Darkness, Psychic, Metal, Lightning, Water, Fire, Colorless, Fairy }
 
-public enum Rarity { Uncommon, Common,Rare, Legend }
+public enum Rarity { Uncommon, Common,Rare,RareHolo, RareRainbow,RareHoloVMAX, Legend }
